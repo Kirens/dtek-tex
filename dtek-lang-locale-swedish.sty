@@ -1,0 +1,33 @@
+\ProvidesPackage{dtek-lang-locale-swedish}
+
+\LocaleSummonsIs{Kallelse}
+\LocaleMinutesIs{Protokoll}
+\LocaleDTekIs{Datateknologsektionen}
+\LocaleChsIs{Chalmers Studentkår}
+\LocaleGothenburgIs{Göteborg}
+\LocalePageIs{Sida}
+\LocaleOutOfIs{av}
+\LocaleAgendaIs{Dagordning}
+\LocaleAnnexIs{Bilaga}
+\LocaleAnnexesIs{Bilagor}
+\LocaleInIs{i}
+\LocaleTimeIs{Tid}
+\LocaleDateIs{Datum}
+\LocaleMeetingNumberIs{Mötesnummer}
+\LocaleLocationIs{Plats}
+\LocaleDecisionIs{Beslut}
+\LocaleDecisionsIs{Beslut}
+\LocaleDecidesIs{Beslutar}
+\LocaleListOfIs{Lista över}
+
+\newcommand*\DTMswedishshortweekdayname[1]{%
+    \ifcase#1\relax
+        \or sön%
+        \or mån%
+        \or tis%
+        \or ons%
+        \or tor%
+        \or fre%
+        \or lör%
+    \fi%
+}
