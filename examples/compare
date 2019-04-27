@@ -1,0 +1,116 @@
+#! /usr/bin/env bash
+
+if [ "$1" = "--help" ]
+then
+  echo  Usage: ./compare [COMMAND]
+  echo
+  echo  Performs regresion tests on example files
+  echo
+  echo  COMMAND
+  echo '  overwrite Generate references from the testfiles to be used in'
+  echo '            future regression tests instead of performing tests.'
+  echo '  *         If an invalid command or no command is given a regression'
+  echo '            test against the reference pdf:s will be performed.'
+  echo
+
+  exit 0
+fi
+
+# Build helpers
+build() {
+  for i in $(seq 2)
+  do
+    timeout 5 \
+      xelatex -halt-on-error -output-directory=out -jobname="$1" "$1.reg.tex"
+    exitCode=$?
+    if [ "$exitCode" != "0" ]
+    then
+      return $exitCode
+    fi
+  done
+}
+compile() {
+  start=`date +%s%N`
+  buildLog=$(build "$1")
+  exitCode=$?
+  end=`date +%s%N`
+
+  time=$((end-start))
+  secs=$(echo $time | head -c -10)
+  nanos=$(echo $time | tail -c -10)
+  echo Document compiled in $secs.$nanos seconds
+
+  if [ "$exitCode" != "0" ]
+  then
+    echo "$buildLog"
+  fi
+  return "$exitCode"
+}
+
+
+# Actual testscript
+buildAndTestAll() {
+  if [ "$1" = "overwrite" ]
+  then
+    referenceCommand="cp"
+    preMessage="Building"
+    postMessage="Reference file created"
+  else
+    referenceCommand="diff"
+    preMessage="Testing"
+    postMessage="Test successfull"
+  fi
+
+  for dir in $(find -maxdepth 1 -mindepth 1 -type d | sort)
+  do
+    cd $dir
+    if [ "$1" = "overwrite" ]
+    then
+      if [ -e reference ]
+      then
+        echo Removing all reference files in "$dir"
+        rm -r reference
+      fi
+      mkdir reference
+    fi
+
+    echo Looking for regression files in "$dir"
+    for file in $(ls | grep -oP '^.*(?=\.reg.tex)')
+    do
+      if [ -e out ]
+      then
+        rm -r out
+      fi
+      mkdir out
+
+      echo "$preMessage $dir/$file..."
+      compile "$file"
+      exitCode=$?
+      if [ "$exitCode" != "0" ]
+      then
+        return $exitCode
+      fi
+
+      $referenceCommand "out/$file.pdf" "reference/$file.pdf"
+      exitCode=$?
+      if [ "$exitCode" != "0" ]
+      then
+        return $exitCode
+      fi
+      echo "$postMessage"
+
+      rm -r out
+    done
+    cd ..
+  done
+}
+
+# Run test and prompt user with the result
+if buildAndTestAll "$1"
+then
+  echo - SUCCESS! -------------------------------------------------------------
+  echo All .reg.tex files tested!
+else
+  echo - FAILURE! -------------------------------------------------------------
+  echo A test failed! Se above logs for more details.
+fi
