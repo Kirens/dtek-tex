@@ -12,9 +12,8 @@ let
       echo Nothing to build
     '';
     installPhase = ''
-      mkdir -p $out/tex/latex
-      cp *.cls $out/tex/latex
-      cp dteklogo.pdf $out/tex/latex
+      mkdir -p $out/tex/latex/dTeX
+      cp ./*/* $out/tex/latex/dTeX
     '';
     pname = name;
     tlType = "run";

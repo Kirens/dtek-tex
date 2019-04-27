@@ -17,10 +17,10 @@ let
     installPhase = ''
       mkdir -p $out/tex/latex/dTeX
 
-      ln -s ${src}/dtek.cls          $out/tex/latex/dTeX/dtek.cls
-      ln -s ${src}/dtekkallelse.cls  $out/tex/latex/dTeX/dtekkallelse.cls
-      ln -s ${src}/dteklogo.pdf      $out/tex/latex/dTeX/dteklogo.pdf
-      ln -s ${src}/dtekprotokoll.cls $out/tex/latex/dTeX/dtekprotokoll.cls
+      for file in $(find * -mindepth 1 -maxdepth 1)
+      do
+        ln -s ${src}/$file  $out/tex/latex/dTeX$(echo $file | grep -o '/.*')
+      done
     '';
   });
 
