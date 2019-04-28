@@ -12,11 +12,8 @@
 
 \LoadClass{dtek}
 
-% helps creating table of contents
-% commands used
-%   newlistof
-\dTeX@RequirePackage{tocloft}
-
+% bundle with class
+\dTeX@Dep{annex}
 % bundle with class
 \dTeX@Dep{decisions}
 % commands used
@@ -57,31 +54,17 @@
 
 \DeclareDocumentCommand \maketitle {} {%
   {\centering \bf{\LARGE{\@title\ \@date}}\par}
-  
+
   Kl: \@start\\
   Mötesnummer: \@motesnummer\ - \@verksamhetsar\\
   Plats: \@plats
-}
-
-\newlistof{bilagor}{bil}{Bilagor}
-
-% \makebilaga{kortnamn}{Ett längre namn}{filnamn}
-\DeclareDocumentCommand \makebilaga {m m m}{%
-  \includepdf[ pages=-
-             , addtolist={1,bilagor,#2,bil:#1}
-  ]{#3}
-}
-
-% \bilaga{kortnamn} Referera till en bilaga
-\DeclareDocumentCommand \bilaga {m}{%
-  \hyperref[bil:#1]{bilaga \ref*{bil:#1}}%
 }
 
 \DeclareDocumentCommand \makesigns {m m o o} {%
   \parbox{\textwidth}{%
     \vspace{1cm}
     \makesign{Sekreterare #1}
-    
+
     \makesign{Mötesordförande #2}
 
     \IfValueTF{#3}{%
