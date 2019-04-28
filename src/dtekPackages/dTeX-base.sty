@@ -1,0 +1,11 @@
+\NeedsTeXFormat{LaTeX2e}[2018-04-01]
+\ProvidesPackage{dTeX-base}[2019-04-28 v1.0 Basic definitions that all dTeX
+packages assume exists.]
+
+\@ifpackageloaded{xparse}{}{\RequirePackage{xparse}}
+
+\NewDocumentCommand \dTeX@RequirePackage {m} {%
+  \@ifpackageloaded{#1}{}{\RequirePackage{#1}}
+}
+
+\NewDocumentCommand \dTeX@Dep {m} {\dTeX@RequirePackage{dTeX-#1}}

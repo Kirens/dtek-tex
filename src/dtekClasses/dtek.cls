@@ -8,6 +8,7 @@
 \ProcessOptions\relax
 
 \LoadClass[11pt]{article}
+\RequirePackage{dTeX-base}
 
 \RequirePackage[quiet]{fontspec}
 \RequirePackage{parskip}
@@ -17,7 +18,6 @@
 \RequirePackage{lastpage}
 \RequirePackage[unicode]{hyperref}
 \RequirePackage[includeheadfoot, top=2.0cm, bottom=4cm]{geometry}
-\RequirePackage{xparse}
 \RequirePackage{etoolbox}
 
 \RequirePackage{pdfpages}

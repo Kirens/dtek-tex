@@ -12,7 +12,16 @@
 
 \LoadClass{dtek}
 
-\RequirePackage{tocloft}
+% helps creating table of contents
+% commands used
+%   newlistof
+\dTeX@RequirePackage{tocloft}
+
+% bundle with class
+\dTeX@Dep{decisions}
+% commands used
+%   marginnote
+\dTeX@Dep{marginnote}
 
 \DeclareDocumentCommand \motesnummer {m} {%
   \DeclareDocumentCommand \@motesnummer {}{#1}
@@ -41,20 +50,9 @@
   \end{tabular}
 }
 
-\newlistof{beslut}{beslut}{Lista över beslut}
-
-\DeclareDocumentCommand \beslut {m} {%
-  \refstepcounter{beslut}
-  \addcontentsline{beslut}{beslut}{#1}
-  \leavevmode\marginnote{Beslut}#1%
-}
 
 \DeclareDocumentCommand \anm {m} {%
   \leavevmode\marginnote{Anm.}#1%
-}
-
-\DeclareDocumentCommand \marginnote {m} {%
-  \marginpar{\small{\textbf{#1}}}%
 }
 
 \DeclareDocumentCommand \maketitle {} {%

@@ -1,0 +1,19 @@
+\ProvidesPackage{dTeX-decisions}[2019-04-28 v1.0 Contains abstractions and
+helpers for documenting decisions]
+
+% helps creating table of contents
+% commands used
+%   newlistof
+\dTeX@RequirePackage{tocloft}
+
+% commands used
+%   marginnote
+\dTeX@Dep{marginnote}
+
+\newlistof{beslut}{beslut}{Lista över beslut}
+
+\DeclareDocumentCommand \beslut {m} {%
+  \refstepcounter{beslut}
+  \addcontentsline{beslut}{beslut}{#1}
+  \leavevmode\marginnote{Beslut}#1%
+}
