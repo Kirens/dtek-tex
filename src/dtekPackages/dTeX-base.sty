@@ -4,8 +4,30 @@ packages assume exists.]
 
 \RequirePackage{xparse}
 
-\NewDocumentCommand \dTeX@Dep {om} {%
-  \IfNoValueTF{#1}%
-    {\RequirePackage{dTeX-#2}}%
-    {\RequirePackage[#1]{#2}}%
+\NewDocumentCommand \dTeX@IgnoreLinebreaks { } {%
+  \endlinechar = 32\relax%
+  \catcode 9   = 9\relax%
 }
+\NewDocumentCommand \dTeX@AcknowledgeLinebreaks { } {%
+  \endlinechar = 13\relax%
+  \catcode 9   = 10\relax%
+}
+\dTeX@IgnoreLinebreaks
+
+\NewDocumentCommand \dTeX@IgnoreSpace { } {
+  \dTeX@IgnoreLinebreaks
+  \catcode 32  = 9\relax
+}
+\NewDocumentCommand \dTeX@AcknowledgeWhitespace { } {
+  \dTeX@AcknowledgeLinebreaks
+  \catcode 32  = 10\relax
+}
+
+
+\NewDocumentCommand \dTeX@Dep {om} {
+  \IfNoValueTF{#1}
+    {\RequirePackage{dTeX-#2}}
+    {\RequirePackage[#1]{#2}}
+}
+
+\dTeX@AcknowledgeLinebreaks
