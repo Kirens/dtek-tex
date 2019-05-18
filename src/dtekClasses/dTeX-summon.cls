@@ -1,9 +1,12 @@
-\NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{dtekkallelse}[2015/05/07 Datateknologsektion Chalmers]
+\RequirePackage{dTeX-base}
+\dTeX@ProvidesClass{
+  name={summon},
+  version={1.1},
+  date={2019-05-01},
+  description={Datateknologsektionen Chalmers}
+}
 
-\ProcessOptions\relax
-
-\LoadClass{dtek}
+\dTeX@Extend[version=1.0]{meeting}
 
 \RequirePackage{tocloft}
 \RequirePackage{datetime}
@@ -17,7 +20,7 @@
   \DeclareDocumentCommand \@motesnummer {}{#1}
 }
 
-% Deklarera föreningens verksamhetsår 
+% Deklarera föreningens verksamhetsår
 \DeclareDocumentCommand \verksamhetsar {m} {
   \DeclareDocumentCommand \@verksamhetsar {}{#1}
 }
@@ -44,7 +47,7 @@
 % Kräver att kommandon över har fått värden
 \DeclareDocumentCommand \maketitle {} {%
   {\bf \LARGE \@title} \\[0.5cm]
-  
+
   \begin{tabular} {l l l}
     Tid \& datum: & \@start{} & \datummote \\
     Mötesnummer: & \@motesnummer\ & \@verksamhetsar \\
@@ -67,7 +70,7 @@
   \hyperref[bil:#1]{bilaga \ref*{bil:#1}}%
 }
 
-% Fixa header och footer enligt sektionens profil 
+% Fixa header och footer enligt sektionens profil
 % (saxad från dtekprotokoll.cls men med justeringsmöjligheterna borttagna).
 \RenewDocumentCommand \makeheadfoot {}{%
   \makehf
@@ -145,7 +148,7 @@
 % Fixa så secretkommandot genererar en text som bara syns
 % i agendor, i.e när secret = true
 \DeclareDocumentCommand \secr {m} {%
-  \ifthenelse{ \equal{\secret}{true}}{% 
+  \ifthenelse{ \equal{\secret}{true}}{%
     \\ {\tt #1}
   }{% Gör ingenting om inte \secret är sant
   }
@@ -157,7 +160,7 @@
 \RenewDocumentCommand \dateseparator {} {-}
 
 % Skriver ut dagens datum på formen yyyy-mm-dd
-\NewDocumentCommand \datumiso {} {% 
+\NewDocumentCommand \datumiso {} {%
   \yyyymmdddate\today
 }
 
@@ -197,7 +200,7 @@
 
 % Sätter datumformatet
 \newdateformat{daydate}{
-  \dayofweekname {\THEDAY}{\THEMONTH}{\THEYEAR} 
+  \dayofweekname {\THEDAY}{\THEMONTH}{\THEYEAR}
   \THEYEAR-\twodigit{\THEMONTH}-\twodigit{\THEDAY}
 }
 

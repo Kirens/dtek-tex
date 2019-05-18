@@ -1,5 +1,10 @@
-\NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{dtekprotokoll}[2013/04/07 Datateknologsektionen Chalmers]
+\RequirePackage{dTeX-base}
+\dTeX@ProvidesClass{
+  name={protocoll},
+  version={1.1},
+  date={2019-04-28},
+  description={Datateknologsektionen Chalmers}
+}
 
 \newif\iftwojust
 \twojustfalse
@@ -8,9 +13,7 @@
   \PassOptionsToClass{\CurrentOption}{dtek}
 }
 
-\ProcessOptions\relax
-
-\LoadClass{dtek}
+\dTeX@Extend[version=1.0]{meeting}
 
 % bundle with class
 \dTeX@Dep{annex}

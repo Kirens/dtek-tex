@@ -46,6 +46,7 @@ in overridable dTeX (with texlive; [
   oberdiek
   parskip
   pdfpages
+  pgf
   tocloft
   tools
   url

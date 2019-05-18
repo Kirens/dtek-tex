@@ -3,6 +3,7 @@
 packages assume exists.]
 
 \RequirePackage{xparse}
+\RequirePackage{pgfkeys}
 
 \NewDocumentCommand \dTeX@IgnoreLinebreaks { } {%
   \endlinechar = 32\relax%
@@ -29,5 +30,51 @@ packages assume exists.]
     {\RequirePackage{dTeX-#2}}
     {\RequirePackage[#1]{#2}}
 }
+
+
+%%%
+% Declare package/class version and description
+% @arg m Provider command, e.g. \ProvideClass
+% @arg opts
+%   name        Name of class in dTeX namespace
+%   version     Semantic version number
+%   date        Version date
+%   description Description
+%%%
+\pgfkeys{
+  /dTeX/ProvideGeneral/.cd,
+  name/.store in = \dTeXTmp@Name,
+  name/.default = \relax,
+  version/.store in = \dTeXTmp@Version,
+  version/.default = \relax,
+  date/.store in = \dTeXTmp@Date,
+  date/.default = \relax,
+  description/.store in = \dTeXTmp@Description,
+  description/.default = \relax,
+}
+\NewDocumentCommand \dTeX@Provide@General {m m} {
+  \pgfkeys{/dTeX/ProvideGeneral/.cd,#2}
+  #1{dTeX-\dTeXTmp@Name}[
+    \dTeXTmp@Date\space
+    v\dTeXTmp@Version\space
+    \dTeXTmp@Description
+  ]
+}
+\NewDocumentCommand \dTeX@ProvidesClass { } {
+  \dTeX@Provide@General{\ProvidesClass}
+}
+
+\NewDocumentCommand \dTeX@PassOptionalMandatory {mr[]m} {
+  \IfNoValueTF{#2}
+    {#1{#3}}
+    {#1[#2]{#3}}
+}
+
+\NewDocumentCommand \dTeX@BaseOn {om} {
+  \DeclareOption*{\PassOptionsToClass{\CurrentOption}{#2}}
+  \ProcessOptions\relax
+  \dTeX@PassOptionalMandatory{\LoadClass}[#1]{#2}
+}
+\NewDocumentCommand \dTeX@Extend {om} {\dTeX@BaseOn[#1]{dTeX-#2}}
 
 \dTeX@AcknowledgeLinebreaks
