@@ -1,20 +1,14 @@
 #! /usr/bin/env bash
 
-if [ "$1" = "--help" ]
-then
-  echo  Usage: ./compare [COMMAND]
-  echo
-  echo  Performs regresion tests on example files
-  echo
-  echo  COMMAND
-  echo '  overwrite Generate references from the testfiles to be used in'
-  echo '            future regression tests instead of performing tests.'
-  echo '  *         If an invalid command or no command is given a regression'
-  echo '            test against the reference pdf:s will be performed.'
-  echo
+export verb=false
+export ignoreMissing=false
+export needHelp=false
+export overwrite=false
 
-  exit 0
-fi
+bold() {
+  echo "$(tput bold)$@$(tput sgr0)"
+}
+
 
 # Build helpers
 build() {
@@ -40,7 +34,7 @@ compile() {
   nanos=$(echo $time | tail -c -10)
   echo Document compiled in $secs.$nanos seconds
 
-  if [ "$exitCode" != "0" ]
+  if [ "$exitCode" != "0" -o "$verb" = "true" ]
   then
     echo "$buildLog"
   fi
@@ -50,7 +44,7 @@ compile() {
 
 # Actual testscript
 buildAndTestAll() {
-  if [ "$1" = "overwrite" ]
+  if [ "$overwrite" = "true" ]
   then
     referenceCommand="cp"
     preMessage="Building"
@@ -64,7 +58,7 @@ buildAndTestAll() {
   for dir in $(find -maxdepth 1 -mindepth 1 -type d | sort)
   do
     cd $dir
-    if [ "$1" = "overwrite" ]
+    if [ "$overwrite" = "true" ]
     then
       if [ -e reference ]
       then
@@ -74,39 +68,91 @@ buildAndTestAll() {
       mkdir reference
     fi
 
-    echo Looking for regression files in "$dir"
+    bold Looking for regression files in "$dir"
     for file in $(ls | grep -oP '^.*(?=\.reg.tex)')
     do
-      if [ -e out ]
+      # Check if a file to compare against exists
+      if [ "$ignoreMissing" = "false" -o -e "reference/$file.pdf" ]
       then
+        if [ -e out ]
+        then
+          rm -r out
+        fi
+        mkdir out
+
+        echo "$preMessage $dir/$file..."
+        compile "$file"
+        exitCode=$?
+        if [ "$exitCode" != "0" ]
+        then
+          return $exitCode
+        fi
+
+        $referenceCommand "out/$file.pdf" "reference/$file.pdf"
+        exitCode=$?
+        if [ "$exitCode" != "0" ]
+        then
+          return $exitCode
+        fi
+        echo "$postMessage"
+
         rm -r out
       fi
-      mkdir out
-
-      echo "$preMessage $dir/$file..."
-      compile "$file"
-      exitCode=$?
-      if [ "$exitCode" != "0" ]
-      then
-        return $exitCode
-      fi
-
-      $referenceCommand "out/$file.pdf" "reference/$file.pdf"
-      exitCode=$?
-      if [ "$exitCode" != "0" ]
-      then
-        return $exitCode
-      fi
-      echo "$postMessage"
-
-      rm -r out
     done
     cd ..
   done
 }
 
+# Argument handeler
+for var in "$@"
+do
+  case $var in
+  --verbose|-v)
+    verb=true
+    optionLogs="${optionLogs}Will output complete build logs\n"
+    ;;
+  --ignore-missing|-i)
+    ignoreMissing=true
+    optionLogs="${optionLogs}Ignoring files that doesn\'t have a reference\n"
+    ;;
+  --overwrite|-o)
+    overwrite=true
+    optionLogs="${optionLogs}Will rebuild reference files\n"
+    ;;
+  --help|*)
+    needHelp=true
+    ;;
+  esac
+done
+
+if [ "$needHelp" = "true" ]
+then
+  echo  Usage: ./compare [OPTIONS]
+  echo
+  echo  Performs regresion tests on example files
+  echo
+  echo If no options says otherwise a regression test against the reference
+  echo pdf:s will be performed.
+  echo
+  bold  OPTIONS
+  bold '  --help'
+  echo '    Print this message'
+  bold '  -o, --overwrite'
+  echo '    Generate references from the testfiles to be used in future'
+  echo '    regression tests instead of performing tests.'
+  bold '  -v, --verbose'
+  echo '    Prints build logs when build either succeeded or failed'
+  bold '  -i, --ignore-missing'
+  echo '    Does not build or compare files where a reference file is missing'
+  echo
+
+  exit 0
+fi
+
+printf "$optionLogs"
+
 # Run test and prompt user with the result
-if buildAndTestAll "$1"
+if buildAndTestAll
 then
   echo - SUCCESS! -------------------------------------------------------------
   echo All .reg.tex files tested!

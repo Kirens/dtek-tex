@@ -31,6 +31,7 @@ in stdenv.mkDerivation rec {
     paths = buildInputs;
   };
   buildInputs = [
+    pkgs.ncurses
     (texlive.combine {
       inherit dTeX;
       inherit (texlive)
