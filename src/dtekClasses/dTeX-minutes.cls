@@ -16,25 +16,10 @@
 \dTeX@Extend[version=1.0]{meeting}
 
 % bundle with class
-\dTeX@Dep{annex}
-% bundle with class
 \dTeX@Dep{decisions}
 % commands used
 %   marginnote
 \dTeX@Dep{marginnote}
-
-\DeclareDocumentCommand \motesnummer {m} {%
-  \DeclareDocumentCommand \@motesnummer {}{#1}
-}
-\DeclareDocumentCommand \verksamhetsar {m} {%
-  \DeclareDocumentCommand \@verksamhetsar {}{#1}
-}
-\DeclareDocumentCommand \start {m} {%
-  \DeclareDocumentCommand \@start {}{#1}
-}
-\DeclareDocumentCommand \plats {m} {%
-  \DeclareDocumentCommand \@plats {}{#1}
-}
 
 \NewDocumentCommand \funktionar {ommm} {%
   \IfNoValueTF {#1}

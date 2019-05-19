@@ -8,22 +8,12 @@
 
 \dTeX@Extend[version=1.0]{meeting}
 
-\RequirePackage{tocloft}
 \RequirePackage{datetime}
 \RequirePackage{ifthen}
 
 \topmargin -20.0pt
 \headheight 56.0pt
 
-% Deklarera mötets nummer i ordningen sen föreningen tillsattes
-\DeclareDocumentCommand \motesnummer {m} {
-  \DeclareDocumentCommand \@motesnummer {}{#1}
-}
-
-% Deklarera föreningens verksamhetsår
-\DeclareDocumentCommand \verksamhetsar {m} {
-  \DeclareDocumentCommand \@verksamhetsar {}{#1}
-}
 
 \DeclareDocumentCommand \listtyp {m} {
   \DeclareDocumentCommand \@listtyp {}{#1}
@@ -31,16 +21,6 @@
 
 \DeclareDocumentCommand \dokumenttyp {m} {
   \DeclareDocumentCommand \@dokumenttyp {}{#1}
-}
-
-% Deklarera mötets start
-\DeclareDocumentCommand \start {m} {
-  \DeclareDocumentCommand \@start {}{#1}
-}
-
-% Deklarera mötets plats
-\DeclareDocumentCommand \plats {m} {
-  \DeclareDocumentCommand \@plats {}{#1}
 }
 
 % Deklarera titelskapande kommandot maketitle
@@ -53,21 +33,6 @@
     Mötesnummer: & \@motesnummer\ & \@verksamhetsar \\
     Plats: & \multicolumn{2}{l}{\@plats} \\
   \end{tabular}
-}
-
-% Skapar en ny lista för bilagor
-\newlistof{bilagor}{bil}{Bilagor}
-
-% \makebilaga{kortnamn}{Ett längre namn}{filnamn}
-\DeclareDocumentCommand \makebilaga {m m m}{%
-  \includepdf[ pages=-
-             , addtolist={1,bilagor,#2,bil:#1}
-  ]{#3}
-}
-
-% \bilaga{kortnamn} Referera till en bilaga
-\DeclareDocumentCommand \bilaga {m}{%
-  \hyperref[bil:#1]{bilaga \ref*{bil:#1}}%
 }
 
 % Fixa header och footer enligt sektionens profil
