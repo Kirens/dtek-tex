@@ -1,5 +1,10 @@
-\ProvidesPackage{dTeX-marginnote}[2019-04-29 v1.0 Highligt prominent parts of
-the document in the margin.]
+\RequirePackage{dTeX-base}
+\dTeX@ProvidesPackage{
+  name={marginnote},
+  version={1.0},
+  date={2019-04-29},
+  description={Highligt prominent parts of the document in the margin.}
+}
 
 \DeclareDocumentCommand \marginnote {m} {%
   \marginpar{\small{\textbf{#1}}}%

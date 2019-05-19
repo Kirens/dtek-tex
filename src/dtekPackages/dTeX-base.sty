@@ -63,6 +63,9 @@ packages assume exists.]
 \NewDocumentCommand \dTeX@ProvidesClass { } {
   \dTeX@Provide@General{\ProvidesClass}
 }
+\NewDocumentCommand \dTeX@ProvidesPackage { } {
+  \dTeX@Provide@General{\ProvidesPackage}
+}
 
 \NewDocumentCommand \dTeX@PassOptionalMandatory {mr[]m} {
   \IfNoValueTF{#2}
