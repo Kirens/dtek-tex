@@ -55,7 +55,7 @@ buildAndTestAll() {
     postMessage="Test successfull"
   fi
 
-  for dir in $(find -maxdepth 1 -mindepth 1 -type d | sort)
+  for dir in "${testDirs[@]}"
   do
     cd $dir
     if [ "$overwrite" = "true" ]
@@ -104,26 +104,43 @@ buildAndTestAll() {
 }
 
 # Argument handeler
-for var in "$@"
+while true
 do
-  case $var in
+  if test $# == 0
+  then
+    break
+  fi
+
+  case "$1" in
   --verbose|-v)
     verb=true
-    optionLogs="${optionLogs}Will output complete build logs\n"
+    optionLogs+="Will output complete build logs\n"
     ;;
   --ignore-missing|-i)
     ignoreMissing=true
-    optionLogs="${optionLogs}Ignoring files that doesn\'t have a reference\n"
+    optionLogs+="Ignoring files that doesn\'t have a reference\n"
     ;;
   --overwrite|-o)
     overwrite=true
-    optionLogs="${optionLogs}Will rebuild reference files\n"
+    optionLogs+="Will rebuild reference files\n"
+    ;;
+  --dir|-d)
+    shift
+    optionLogs+="Directory '$1' set to test path\n"
+    testDirs+=($1)
     ;;
   --help|*)
     needHelp=true
+    break
     ;;
   esac
+  shift
 done
+
+if test ${#testDirs[@]} = 0
+then
+  testDirs=($(find -maxdepth 1 -mindepth 1 -type d | sort))
+fi
 
 if [ "$needHelp" = "true" ]
 then
@@ -144,6 +161,9 @@ then
   echo '    Prints build logs when build either succeeded or failed'
   bold '  -i, --ignore-missing'
   echo '    Does not build or compare files where a reference file is missing'
+  bold '  -d, --dir'
+  echo '    Specify directories to test. Argument may be repeteated for'
+  echo '    multiple directories. Defaults to all local directories'
   echo
 
   exit 0
