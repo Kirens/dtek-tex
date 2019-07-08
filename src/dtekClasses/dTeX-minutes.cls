@@ -9,9 +9,6 @@
 \newif\iftwojust
 \twojustfalse
 \DeclareOption{twojust}{\twojusttrue}
-\DeclareOption*{%
-  \PassOptionsToClass{\CurrentOption}{dtek}
-}
 
 \dTeX@Extend[version=1.0]{meeting}
 
