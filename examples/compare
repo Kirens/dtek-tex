@@ -1,4 +1,5 @@
 #! /usr/bin/env bash
+# This file is part of dTeX; free software released under GPL-3.0-or-later.
 
 export verb=false
 export ignoreMissing=false

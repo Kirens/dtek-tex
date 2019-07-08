@@ -1,0 +1,22 @@
+This repository contains free software.  All latex source files
+(files ending in .sty, .cls, or .tex), and other files where stated,
+included in this repository are free software licensed under
+GPL-3.0-or-later found in COPYING at the root of this repository.
+
+Note that the project contains many references to the division for computer
+science and engineering students at Chalmers (DATATEKNOLOGSEKTIONEN CHALMERS
+STUDENTKÅR, se.org.nr.: 857209-7080).  The source and software released does
+not grant users the right to publish documents that impersonate or may be
+perceived to impersonate the organization.
+
+You can redistribute the files and/or modify them under the terms of the
+GNU General Public License as published by the Free Software Foundation,
+either version 3 of the License, or (at your option) any later version.
+
+This software is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
