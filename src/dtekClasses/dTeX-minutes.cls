@@ -62,8 +62,8 @@
   }
 }
 
-\RenewDocumentCommand \makeheadfoot {}{%
-  \makehf
+\fancypagestyle{DTek-minute}{%
+  \pagestyle{DTek-meeting}
 
   \cfoot{%
     \vspace{0.55cm}
@@ -92,11 +92,6 @@
         Just.
       }
     \fi
-  }
-  \rhead{%
-    Sidan \thepage\ av \pageref{LastPage}\\
-    \@date \\
-    Mötesnr. \@motesnummer\ - \@verksamhetsar
   }
 }
 

@@ -35,17 +35,6 @@
   \end{tabular}
 }
 
-% Fixa header och footer enligt sektionens profil
-% (saxad från dtekprotokoll.cls men med justeringsmöjligheterna borttagna).
-\RenewDocumentCommand \makeheadfoot {}{%
-  \makehf
-  \rhead{%
-    Sidan \thepage\ av \pageref{LastPage}\\
-    \@date \\
-    Mötesnr. \@motesnummer\ - \@verksamhetsar
-  }
-}
-
 % Deklarerar föredragningslista som ett environment
 \DeclareDocumentEnvironment {foredragningslista} {} {%
   \subsection*{\@listtyp}

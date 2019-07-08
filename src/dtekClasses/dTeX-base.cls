@@ -47,9 +47,7 @@
 }
 
 % Set up headers
-
-\DeclareDocumentCommand \makehf {}{%
-  \pagestyle{fancy}
+\fancypagestyle{DTek}{%
   \fancyhf{}
 
   \newcommand{\headleft}{%
@@ -95,8 +93,6 @@
     }
   \fi
 }
-
-\DeclareDocumentCommand \makeheadfoot {}{\makehf}
 
 \DeclareDocumentCommand \makesign {m} {%
   \parbox{0.47\textwidth}{%

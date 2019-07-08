@@ -11,6 +11,14 @@
 % bundle with class
 \dTeX@Dep{annex}
 
+\fancypagestyle{DTek-meeting}{%
+  \pagestyle{DTek}
+  \rhead{%
+    Sidan \thepage\ av \pageref{LastPage}\\
+    \@date \\
+    Mötesnr. \@motesnummer\ - \@verksamhetsar
+  }
+}
 
 % Deklarera mötets nummer i ordningen sen föreningen tillsattes
 \DeclareDocumentCommand \motesnummer {m} {
