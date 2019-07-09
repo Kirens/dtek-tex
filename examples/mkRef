@@ -1,0 +1,15 @@
+set -o xtrace
+set -e
+
+git stash -u
+git checkout 4ecb361a0452582d2ceca14f1ede8c693dab3881
+sed -if plain/operationalplan.reg.tex -e 's/\\today/7 juli 2019/'
+sed -if summons/base.tex -e 's/1 maj 2018/2 maj 2018/'
+head -n 10 plain/operationalplan.reg.tex
+head -n 10 summons/base.tex
+./compare overwrite
+git checkout plain/operationalplan.reg.tex
+git checkout summons/base.tex
+git checkout refactor/dTeX-rewrite
+./compare
+git stash pop
