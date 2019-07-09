@@ -18,7 +18,6 @@
 \dTeX@Dep{documentWrapper}
 \SetDocumentWrapper{summon}{}
 
-\RequirePackage{datetime}
 \RequirePackage{ifthen}
 
 \topmargin -20.0pt
@@ -41,7 +40,7 @@
 
   \begin{tabular} {l l l}
     Tid \& datum: & \TheStartTime
-      & \dayofweekname{\da}{\mo}{\ye} \ye-\mo-\da \\
+      & \TheWeekDay\ \TheYear-\TheMonth-\TheDay \\
     Mötesnummer: & \TheMeetingNumber\ & \TheFiscalYear \\
     Plats: & \multicolumn{2}{l}{\TheLocation} \\
   \end{tabular}

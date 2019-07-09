@@ -71,6 +71,12 @@
 \fancypagestyle{DTek-minute}{%
   \pagestyle{DTek-meeting}
 
+  \rhead{
+    Sidan \thepage\ av \pageref{LastPage}\\
+    \TheDate \\
+    Mötesnr. \TheMeetingNumber\ - \TheFiscalYear
+  }
+
   \cfoot{%
     \vspace{0.55cm}
     \parbox{26pt}{%

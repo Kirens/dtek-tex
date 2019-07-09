@@ -20,7 +20,7 @@
   \pagestyle{DTek}
   \rhead{%
     Sidan \thepage\ av \pageref{LastPage}\\
-    \TheDate \\
+    \dTeX@DateFmt@eBY \\
     Mötesnr. \TheMeetingNumber\ - \TheFiscalYear
   }
 }

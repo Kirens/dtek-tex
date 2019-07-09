@@ -14,6 +14,7 @@
 \RequirePackage{dTeX-base}
 % Use value definers to specify details about the document
 \dTeX@Dep{valueDefiner}
+\dTeX@Dep{dates}
 
 \RequirePackage[quiet]{fontspec}
 \RequirePackage{parskip}
@@ -29,8 +30,7 @@
 
 \dTeX@CreateValueDefiners{
   \TheDocumentName,
-  \TheSubtitle=\empty,
-  \TheDate
+  \TheSubtitle=\empty
 }
 
 \title{\TheDocumentName}
@@ -67,7 +67,7 @@
   }
   \newcommand{\headright}{%
     Sida \thepage\ av \pageref{LastPage}\\
-    \TheDate
+    \dTeX@DateFmt@eBY
   }
 
   % Calculate header height

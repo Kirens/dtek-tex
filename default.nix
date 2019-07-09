@@ -34,7 +34,8 @@ in overridable dTeX (with texlive; [
   collection-basic
   collection-fontsrecommended
   collection-xetex
-  datetime
+  datetime2
+  datetime2-swedish
   etoolbox
   fancyhdr
   fmtcount
@@ -49,6 +50,7 @@ in overridable dTeX (with texlive; [
   pgf
   tocloft
   tools
+  tracklang
   url
   xkeyval
 ])

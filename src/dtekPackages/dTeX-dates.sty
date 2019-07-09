@@ -1,0 +1,60 @@
+\RequirePackage{dTeX-base}
+\dTeX@ProvidesPackage{
+  name={dates},
+  version={1.0},
+  date={2019-07-09},
+  description={Contains helpers for dealing with dates}
+}
+
+\RequirePackage[useregional=numeric,calc]{datetime2}
+\DTMusemodule{swedish}{swedish}
+
+\dTeX@IgnoreSpace
+
+\NewDocumentCommand \dTeX@int@RemoveLeadingZero { m } {
+  \ifx 0#1
+    \expandafter\dTeX@int@RemoveLeadingZero
+  \else
+    #1
+  \fi
+}
+
+\dTeX@CreateValueDefiners{TheYear, TheMonth, TheDay}
+\NewDocumentCommand \TheDate {} {\TheYear-\TheMonth-\TheDay}
+\NewDocumentCommand \dTeX@DefinedTheDate {mmm} {
+  \TheYearIs{#1}
+  \TheMonthIs{#2}
+  \TheDayIs{#3}
+}
+\NewDocumentCommand \TheDateIs { >{\SplitArgument{2}{-}}m } {
+  \dTeX@DefinedTheDate #1
+}
+\NewDocumentCommand \dTeX@RemoveLeadingZero { m } {
+  \expandafter\dTeX@int@RemoveLeadingZero#1
+}
+
+\dTeX@AcknowledgeWhitespace
+\dTeX@IgnoreLinebreaks
+
+% similar to `date +'%e %B %Y'`
+\NewDocumentCommand \dTeX@DateFmt@eBY { } {
+  \dTeX@RemoveLeadingZero{\TheDay}
+  \expandafter\DTMmonthname\expandafter{\dTeX@RemoveLeadingZero \TheMonth}
+  \TheYear
+}
+
+\dTeX@AcknowledgeLinebreaks
+\dTeX@IgnoreSpace
+
+\DeclareDocumentCommand \dTeX@WeekDay {m} {
+  \begingroup
+    \DTMsavedate{tmpDate}{#1}
+    \edef\tmpDay{\DTMWeekdayname{\DTMfetchdow{tmpDate}}}
+    \tmpDay
+  \endgroup
+}
+\DeclareDocumentCommand \TheWeekDay {} {
+  \dTeX@WeekDay{\TheYear-\TheMonth-\TheDay}
+}
+
+\dTeX@AcknowledgeWhitespace
