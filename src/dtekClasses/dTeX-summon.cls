@@ -8,6 +8,9 @@
 
 \dTeX@Extend[version=1.0]{meeting}
 
+% bundle with class
+\dTeX@Dep{agenda}
+
 % Use value definers to specify details about the document
 \dTeX@Dep{valueDefiner}
 
@@ -41,32 +44,6 @@
     Mötesnummer: & \TheMeetingNumber\ & \TheFiscalYear \\
     Plats: & \multicolumn{2}{l}{\TheLocation} \\
   \end{tabular}
-}
-
-% Deklarerar föredragningslista som ett environment
-\DeclareDocumentEnvironment {foredragningslista} {} {%
-  \subsection*{\TheListKind}
-  \begin{list}{\textbf{\arabic{enumi}.}}
-    {\usecounter{enumi}
-    \setlength{\leftmargin}{3.5\bigskipamount}
-    \setlength{\itemsep}{0pt}}
-}{%
-  \end{list}
-}
-
-% Deklarerar underpunkter som ett environment i list
-\DeclareDocumentEnvironment {underpunkter} {} {%
-  \begin{list}
-    {\arabic{enumi}.\arabic{enumii}}{
-      \usecounter{enumii}
-      \setlength{\leftmargin}{1.8\bigskipamount}}
-}{%
-  \end{list}
-}
-
-% Deklarerar kommandot punkt som en vettig grej i ett list environment
-\DeclareDocumentCommand \punkt {m}{%
-\item \textbf{#1}
 }
 
 % Bestäm mötestyp baserat på inputparameter

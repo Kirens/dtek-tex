@@ -1,0 +1,42 @@
+\RequirePackage{dTeX-base}
+\dTeX@ProvidesPackage{
+  name={agenda},
+  version={1.0},
+  date={2019-07-09},
+  description={Defines an environment for agendas with an enumeration backend}
+}
+
+\dTeX@IgnoreLinebreaks
+
+\newif\ifdTeX@int@InSubItemList
+\dTeX@int@InSubItemListfalse
+\NewDocumentEnvironment {Agenda} {} {
+  \subsection*{\TheListKind}
+  \begin{list}{\textbf{\arabic{enumi}.}}
+    {\usecounter{enumi}
+    \setlength{\leftmargin}{3.5\bigskipamount}
+    \setlength{\itemsep}{0pt}}
+} {
+  \end{list}
+}
+
+\NewDocumentCommand \Item {m} {
+  \ifdTeX@int@InSubItemList
+    \end{list}
+    \dTeX@int@InSubItemListfalse
+  \fi
+  \goodbreak
+  \item \textbf{#1} % TODO: \par
+}
+\NewDocumentCommand \SubItem {m} {
+    \ifdTeX@int@InSubItemList\else
+      \dTeX@int@InSubItemListtrue
+      \begin{list}{\arabic{enumi}.\arabic{enumii}}{
+        \usecounter{enumii}
+        \setlength{\leftmargin}{1.8\bigskipamount}
+      }
+    \fi
+    \item #1 % TODO: \textbf and \par
+}
+
+\dTeX@AcknowledgeLinebreaks
