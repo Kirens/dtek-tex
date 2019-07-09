@@ -36,7 +36,7 @@
 
 % Deklarera titelskapande kommandot maketitle
 % Kräver att kommandon över har fått värden
-\DeclareDocumentCommand \maketitle {} {%
+\RenewDocumentCommand \maketitle {} {%
   {\bf \LARGE \@title} \\[0.5cm]
 
   \begin{tabular} {l l l}
@@ -78,7 +78,7 @@
 
 % Fixa så elaborationkommandot genererar en text som syns
 % i kallelser och agendor, i.e när elaboration = true
-\DeclareDocumentCommand \elab {m} {%
+\NewDocumentCommand \elab {m} {%
   \ifthenelse{ \equal{\elaboration}{true} }{%
     \\ {\it #1}
   }{% Gör ingenting om inte \elaboration är sant
@@ -87,7 +87,7 @@
 
 % Fixa så secretkommandot genererar en text som bara syns
 % i agendor, i.e när secret = true
-\DeclareDocumentCommand \secr {m} {%
+\NewDocumentCommand \secr {m} {%
   \ifthenelse{ \equal{\secret}{true}}{%
     \\ {\tt #1}
   }{% Gör ingenting om inte \secret är sant
@@ -129,12 +129,12 @@
 \fi}
 
 % Skapar ett fancy datum på formen YYYY-MM-DD
-\DeclareDocumentCommand \datummote {} {%
+\NewDocumentCommand \datummote {} {%
   \dayofweekname{\da}{\mo}{\ye} \ye-\mo-\da
 }
 
 % Skapar ett fancy datum på formen YYYY-MM-DD av tre argument
-\DeclareDocumentCommand \somedate {mmm} {%
+\NewDocumentCommand \somedate {mmm} {%
   \dayofweekname{#3}{#2}{#1} {#1}-{#2}-{#3}
 }
 

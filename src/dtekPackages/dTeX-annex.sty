@@ -20,14 +20,14 @@
 \newlistof{bilagor}{bil}{Bilagor}
 
 % \makebilaga{kortnamn}{Ett längre namn}{filnamn}
-\DeclareDocumentCommand \makebilaga {m m m}{%
+\NewDocumentCommand \makebilaga {m m m}{%
   \includepdf[ pages=-
              , addtolist={1,bilagor,#2,bil:#1}
   ]{#3}
 }
 
 % \bilaga{kortnamn} Referera till en bilaga
-\DeclareDocumentCommand \bilaga {m}{%
+\NewDocumentCommand \bilaga {m}{%
   \hyperref[bil:#1]{bilaga \ref*{bil:#1}}%
 }
 

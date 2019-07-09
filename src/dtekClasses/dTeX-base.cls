@@ -46,7 +46,7 @@
   }
 }
 
-\DeclareDocumentCommand \maketitle {} {%
+\RenewDocumentCommand \maketitle {} {%
   {\centering\bf\LARGE \@title\par}
   \ifx\TheSubtitle\empty\relax\else
     {\centering\Large \TheSubtitle\par}
@@ -101,7 +101,7 @@
   \fi
 }
 
-\DeclareDocumentCommand \makesign {m} {%
+\NewDocumentCommand \makesign {m} {%
   \parbox{0.47\textwidth}{%
     \vspace{2cm}
     \rule{0.47\textwidth}{0.5pt}\\

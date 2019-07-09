@@ -31,7 +31,7 @@
   #2 & #3 & #4\\
 }
 
-\DeclareDocumentEnvironment {funktionarer} {} {%
+\NewDocumentEnvironment {funktionarer} {} {%
   \begin{tabular}{l l l}
     \itshape Funktion & \itshape Namn & \itshape E-mail/CID\\
 }{%
@@ -39,11 +39,11 @@
 }
 
 
-\DeclareDocumentCommand \anm {m} {%
+\NewDocumentCommand \anm {m} {%
   \leavevmode\marginnote{Anm.}#1%
 }
 
-\DeclareDocumentCommand \maketitle {} {%
+\RenewDocumentCommand \maketitle {} {%
   {\centering \bf{\LARGE{\@title\ \TheDate}}\par}
 
   Kl: \TheStartTime\\
@@ -51,7 +51,7 @@
   Plats: \TheLocation
 }
 
-\DeclareDocumentCommand \makesigns {m m o o} {%
+\NewDocumentCommand \makesigns {m m o o} {%
   \parbox{\textwidth}{%
     \vspace{1cm}
     \makesign{Sekreterare #1}
