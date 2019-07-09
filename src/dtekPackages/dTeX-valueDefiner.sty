@@ -1,0 +1,71 @@
+\RequirePackage{dTeX-valueDefiner}
+\dTeX@ProvidesPackage{
+  name={valueDefiner},
+  version={1.0},
+  date={2019-07-08},
+  description={Contains helpers for creating value definining macros}
+}
+
+\dTeX@IgnoreLinebreaks
+\def\dTeX@ConsumeFirstToken#1{}
+\NewDocumentCommand \dTeX@IfMacroTF {m} {
+  \if\noexpand\anykindofcmd\noexpand#1
+    \expandafter\@firstoftwo
+  \else
+    \expandafter\@secondoftwo
+  \fi
+}
+\NewDocumentCommand \dTeX@int@CreateValueDefinerWithName {mo} {
+  \IfValueTF{#2}{
+    \expandafter\def\csname#1\endcsname{#2}
+  }{
+    \expandafter\def\csname#1\endcsname{
+      \ClassError
+        {Undefined}
+        {Value of #1 was never defined}
+        {Use command #1Is{value} to define a value}
+    }
+  }
+
+  \expandafter\long\expandafter\def\csname#1Is\endcsname##1{
+    \expandafter\global\expandafter\def\csname#1\endcsname{##1}
+  }
+}
+%%%
+% Construct a getter and setter pair. Produces the macros `\Name` and `\NameIs`
+% @arg m Command name, either a token or string.
+% @arg o Default, the initial value.
+%%%
+\NewDocumentCommand \dTeX@CreateValueDefiner {m} {
+  \dTeX@IfMacroTF{#1}{
+    % First we expand \string#1 to get `\MacroName`
+    % Then we expand ConsumeFirst to get `MacroName`
+    % Then we pass it on to the ValueDefiner
+    \expandafter\expandafter\expandafter
+    \dTeX@int@CreateValueDefinerWithName
+    \expandafter\expandafter\expandafter
+    {\expandafter\dTeX@ConsumeFirstToken \string#1}
+  }{
+    \ClassWarning{log}{text}{}
+    \dTeX@int@CreateValueDefinerWithName{#1}
+  }
+}
+
+% Handle arguments of kind {name}{default|-NoValue-}
+\NewDocumentCommand \dTeX@int@CreateValueDefinerProxy {mm} {
+  \IfValueTF{#2}{
+    \dTeX@CreateValueDefiner{#1}[#2]
+  }{
+    \dTeX@CreateValueDefiner{#1}
+  }
+}
+% Handle arguments of kind name=default|name
+\NewDocumentCommand \dTeX@int@CreateValueDefinersHlpr
+  { >{\SplitArgument{1}{=}}m } {
+  \dTeX@int@CreateValueDefinerProxy#1
+}
+% Handle arguments of kind name1,name2=default,name3
+\NewDocumentCommand \dTeX@CreateValueDefiners { >{\SplitList{,}}m } {
+  \ProcessList{#1}{\dTeX@int@CreateValueDefinersHlpr}
+}
+\dTeX@AcknowledgeLinebreaks

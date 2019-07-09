@@ -1,6 +1,6 @@
 \RequirePackage{dTeX-base}
 \dTeX@ProvidesClass{
-  name={protocoll},
+  name={minutes},
   version={1.1},
   date={2019-04-28},
   description={Datateknologsektionen Chalmers}
@@ -17,6 +17,8 @@
 % commands used
 %   marginnote
 \dTeX@Dep{marginnote}
+
+\title{Protokoll \TheDocumentName}
 
 \NewDocumentCommand \funktionar {ommm} {%
   \IfNoValueTF {#1}
@@ -38,11 +40,11 @@
 }
 
 \DeclareDocumentCommand \maketitle {} {%
-  {\centering \bf{\LARGE{\@title\ \@date}}\par}
+  {\centering \bf{\LARGE{\@title\ \TheDate}}\par}
 
-  Kl: \@start\\
-  Mötesnummer: \@motesnummer\ - \@verksamhetsar\\
-  Plats: \@plats
+  Kl: \TheStartTime\\
+  Mötesnummer: \TheMeetingNumber\ - \TheFiscalYear\\
+  Plats: \TheLocation
 }
 
 \DeclareDocumentCommand \makesigns {m m o o} {%

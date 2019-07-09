@@ -8,20 +8,24 @@
 
 \dTeX@Extend[version=1.0]{meeting}
 
+% Use value definers to specify details about the document
+\dTeX@Dep{valueDefiner}
+
 \RequirePackage{datetime}
 \RequirePackage{ifthen}
 
 \topmargin -20.0pt
 \headheight 56.0pt
 
-
-\DeclareDocumentCommand \listtyp {m} {
-  \DeclareDocumentCommand \@listtyp {}{#1}
+\dTeX@CreateValueDefiners{
+  \TheListKind=Föredragninsglista
 }
 
-\DeclareDocumentCommand \dokumenttyp {m} {
-  \DeclareDocumentCommand \@dokumenttyp {}{#1}
-}
+% This is a hack since the old titles used second level expansion for the.
+% That means the pdftitle set by hypersetup is missing the DocumentName.
+% TODO: replace all occurances of @dokumenttyp with TheDocumentName and remove
+%       this definition.
+\def \@dokumenttyp {\def\x{\TheDocumentName}\x}
 
 % Deklarera titelskapande kommandot maketitle
 % Kräver att kommandon över har fått värden
@@ -29,15 +33,15 @@
   {\bf \LARGE \@title} \\[0.5cm]
 
   \begin{tabular} {l l l}
-    Tid \& datum: & \@start{} & \datummote \\
-    Mötesnummer: & \@motesnummer\ & \@verksamhetsar \\
-    Plats: & \multicolumn{2}{l}{\@plats} \\
+    Tid \& datum: & \TheStartTime{} & \datummote \\
+    Mötesnummer: & \TheMeetingNumber\ & \TheFiscalYear \\
+    Plats: & \multicolumn{2}{l}{\TheLocation} \\
   \end{tabular}
 }
 
 % Deklarerar föredragningslista som ett environment
 \DeclareDocumentEnvironment {foredragningslista} {} {%
-  \subsection*{\@listtyp}
+  \subsection*{\TheListKind}
   \begin{list}{\textbf{\arabic{enumi}.}}
     {\usecounter{enumi}
     \setlength{\leftmargin}{3.5\bigskipamount}
@@ -74,20 +78,21 @@
 \ifthenelse{\equal{\agenda}{true}} {
  \providecommand\elaboration{true}
  \providecommand\secret{true}
- \newcommand{\typ}{Agenda \@dokumenttyp}
+ \title{Agenda \@dokumenttyp}
 }{
 % Vilka fält som ska synas när 'kallelse' genereras
 % Elaboration syns, men secret syns inte.
 \ifthenelse{\equal{\kallelse}{true}}{
  \providecommand\elaboration{true}
  \providecommand\secret{false}
- \newcommand{\typ}{Kallelse \@dokumenttyp}
+ \title{Kallelse \@dokumenttyp}
+ \TheListKindIs{Preliminär föredragningslista}
 }{
 % Vilka fält som ska synas när 'dagordning' genereras
 % Varken secret eller elaboration syns.
  \providecommand\elaboration{false}
  \providecommand\secret{false}
- \newcommand{\typ}{Dagordning \@dokumenttyp}
+ \title{Dagordning \@dokumenttyp}
 }}
 
 % Fixa så elaborationkommandot genererar en text som syns

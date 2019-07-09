@@ -11,32 +11,24 @@
 % bundle with class
 \dTeX@Dep{annex}
 
+% Use value definers to specify details about the document
+\dTeX@Dep{valueDefiner}
+
+\title{Möte \TheDocumentName}
+
 \fancypagestyle{DTek-meeting}{%
   \pagestyle{DTek}
   \rhead{%
     Sidan \thepage\ av \pageref{LastPage}\\
-    \@date \\
-    Mötesnr. \@motesnummer\ - \@verksamhetsar
+    \TheDate \\
+    Mötesnr. \TheMeetingNumber\ - \TheFiscalYear
   }
 }
 
 % Deklarera mötets nummer i ordningen sen föreningen tillsattes
-\DeclareDocumentCommand \motesnummer {m} {
-  \DeclareDocumentCommand \@motesnummer {}{#1}
+\dTeX@CreateValueDefiners{
+  \TheMeetingNumber,
+  \TheFiscalYear,
+  \TheStartTime,
+  \TheLocation
 }
-
-% Deklarera föreningens verksamhetsår
-\DeclareDocumentCommand \verksamhetsar {m} {
-  \DeclareDocumentCommand \@verksamhetsar {}{#1}
-}
-
-% Deklarera mötets start
-\DeclareDocumentCommand \start {m} {
-  \DeclareDocumentCommand \@start {}{#1}
-}
-
-% Deklarera mötets plats
-\DeclareDocumentCommand \plats {m} {
-  \DeclareDocumentCommand \@plats {}{#1}
-}
-

@@ -12,6 +12,8 @@
 
 \dTeX@BaseOn[11pt]{article}
 \RequirePackage{dTeX-base}
+% Use value definers to specify details about the document
+\dTeX@Dep{valueDefiner}
 
 \RequirePackage[quiet]{fontspec}
 \RequirePackage{parskip}
@@ -25,6 +27,13 @@
 
 \RequirePackage{pdfpages}
 
+\dTeX@CreateValueDefiners{
+  \TheDocumentName,
+  \TheSubtitle=\empty,
+  \TheDate
+}
+
+\title{\TheDocumentName}
 \AtBeginDocument{
   \hypersetup{
     pdftitle = {\@title},
@@ -37,13 +46,11 @@
   }
 }
 
-\DeclareDocumentCommand \subtitle {m} {%
-  \DeclareDocumentCommand \@subtitle {}{#1}
-}
-
 \DeclareDocumentCommand \maketitle {} {%
   {\centering\bf\LARGE \@title\par}
-  \ifdef{\@subtitle}{{\centering\Large \@subtitle\par}}{}
+  \ifx\TheSubtitle\empty\relax\else
+    {\centering\Large \TheSubtitle\par}
+  \fi
 }
 
 % Set up headers
@@ -60,7 +67,7 @@
   }
   \newcommand{\headright}{%
     Sida \thepage\ av \pageref{LastPage}\\
-    \@date
+    \TheDate
   }
 
   % Calculate header height
