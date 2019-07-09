@@ -1,0 +1,54 @@
+\RequirePackage{dTeX-base}
+\dTeX@ProvidesPackage{
+  name={documentWrapper},
+  version={1.0},
+  date={2019-07-09},
+  description={Defines a macro to create custom document wrapper}
+}
+
+\dTeX@IgnoreLinebreaks
+
+\let\dTeX@int@SpoofedDocument\document
+\let\dTeX@int@SpoofedDocumentEnding\enddocument
+\def\dTeX@int@CurrentDocumentWrapper{document}
+
+% @arg m name
+% @arg m args
+% @arg +o preamble
+% @arg +d<> begin
+% @arg +d<> end
+% @arg +o postamble
+\NewDocumentCommand \SetDocumentWrapper {mm+o+d<>+d<>+o} {
+  % Unset previous document wrapper
+  \expandafter \RenewDocumentEnvironment
+  \expandafter {\dTeX@int@CurrentDocumentWrapper} {} {
+    \ClassError
+      {dTeX}
+      {This dTeX class is expecting a different document wrapper}
+      {Use "\protect\begin{#1}" in your case, see documentation for details}
+    \stop
+  } {}
+  \gdef\dTeX@int@CurrentDocumentWrapper{#1}
+
+  % Create new document kind
+  \NewDocumentEnvironment {#1} {#2} {
+    % Preamble
+    %\SetupHyperref
+    %\pagestyle{DTekBasicStyle}
+    \IfValueT{#3}{#3}
+    % Spoofed document insertion
+    \begingroup\dTeX@int@SpoofedDocument\def\@currenvir{#1}
+    % After Begin Document
+    \IfValueT{#4}{#4}
+  }{%
+    % Before End Document
+    \IfValueT{#5}{#5}
+    % Spoof closing document
+    \label{LastPage}
+    \def\@currenvir{document}\dTeX@int@SpoofedDocumentEnding
+    % Postamble
+    \IfValueT{#6}{#6}
+  }
+}
+
+\dTeX@AcknowledgeLinebreaks

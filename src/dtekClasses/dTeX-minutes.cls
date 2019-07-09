@@ -18,6 +18,10 @@
 %   marginnote
 \dTeX@Dep{marginnote}
 
+% Enable adding pre- and postambles.
+\dTeX@Dep{documentWrapper}
+\SetDocumentWrapper{minutes}{}
+
 \title{Protokoll \TheDocumentName}
 
 \NewDocumentCommand \funktionar {ommm} {%

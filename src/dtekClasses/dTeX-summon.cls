@@ -11,6 +11,10 @@
 % Use value definers to specify details about the document
 \dTeX@Dep{valueDefiner}
 
+% Enable adding pre- and postambles.
+\dTeX@Dep{documentWrapper}
+\SetDocumentWrapper{summon}{}
+
 \RequirePackage{datetime}
 \RequirePackage{ifthen}
 
