@@ -40,7 +40,8 @@
   {\bf \LARGE \@title} \\[0.5cm]
 
   \begin{tabular} {l l l}
-    Tid \& datum: & \TheStartTime{} & \datummote \\
+    Tid \& datum: & \TheStartTime
+      & \dayofweekname{\da}{\mo}{\ye} \ye-\mo-\da \\
     Mötesnummer: & \TheMeetingNumber\ & \TheFiscalYear \\
     Plats: & \multicolumn{2}{l}{\TheLocation} \\
   \end{tabular}
@@ -93,56 +94,3 @@
   }{% Gör ingenting om inte \secret är sant
   }
 }
-
-% \datumiso skriver ut dagens datum på formen yyyy-mm-dd. Detta läggs
-% i headern på dokumentet och behöver aldrig pillas med.
-\NewDocumentCommand \dateseparate {} {-}
-\RenewDocumentCommand \dateseparator {} {-}
-
-% Skriver ut dagens datum på formen yyyy-mm-dd
-\NewDocumentCommand \datumiso {} {%
-  \yyyymmdddate\today
-}
-
-% Fixar fram rätt långa namn för veckodagen
-\ProvideDocumentCommand \dayofweeknameidswedish {m} {%
-\ifcase#1\relax
-\or Söndag%
-\or Måndag%
-\or Tisdag%
-\or Onsdag%
-\or Torsdag%
-\or Fredag%
-\or Lördag%
-\fi}
-
-% Fixar fram rätt kortnamn för veckodagen
-\ProvideDocumentCommand \shortdaysofweeknameidswedish {m} {%
-\ifcase#1\relax
-\or Sön%
-\or Mån%
-\or Tis%
-\or Ons%
-\or Tor%
-\or Fre%
-\or Lör%
-\fi}
-
-% Skapar ett fancy datum på formen YYYY-MM-DD
-\NewDocumentCommand \datummote {} {%
-  \dayofweekname{\da}{\mo}{\ye} \ye-\mo-\da
-}
-
-% Skapar ett fancy datum på formen YYYY-MM-DD av tre argument
-\NewDocumentCommand \somedate {mmm} {%
-  \dayofweekname{#3}{#2}{#1} {#1}-{#2}-{#3}
-}
-
-% Sätter datumformatet
-\newdateformat{daydate}{
-  \dayofweekname {\THEDAY}{\THEMONTH}{\THEYEAR}
-  \THEYEAR-\twodigit{\THEMONTH}-\twodigit{\THEDAY}
-}
-
-
-\endinput
